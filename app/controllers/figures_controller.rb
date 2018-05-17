@@ -1,9 +1,9 @@
 class FiguresController < ApplicationController
-  set :views, Proc.new { File.join(root, "../views/figures") }
+  #set :views, Proc.new { File.join(root, "../views/figures") }
   #index
   get '/figures' do
     @figures = Figure.all
-    erb :index
+    erb :'figures/index'
   end
 
   #   new
@@ -16,13 +16,13 @@ class FiguresController < ApplicationController
     @titles = Title.all
     @landmarks = Landmark.all
 
-    erb :new
+    erb :'figures/new'
   end
 
   #show
   get '/figures/:id' do
     @figure = Figure.find(params["id"])
-    erb :show
+    erb :'figures/show'
   end
 
   # create
@@ -55,7 +55,7 @@ class FiguresController < ApplicationController
     @landmarks = Landmark.all
     @titles = Title.all
 
-    erb :edit
+    erb :'figures/edit'
   end
   # edit
   #   PATCH
@@ -93,5 +93,14 @@ class FiguresController < ApplicationController
   #   DELETE
   #   ‘/posts/:id/delete’
   #   deletes one blog post based on ID in the url
+  delete '/figures/:id/delete' do
+    figure = Figure.find(params[:id])
+    figtitles = FigureTitle.all.select do |figtitle|
+      figtitle.figure == figure
+    end
+    FigureTitle.destroy(figtitles)
+    figure.destroy
+    redirect "/figures"
+  end
 
 end

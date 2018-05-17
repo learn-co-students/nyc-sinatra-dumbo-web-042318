@@ -9,4 +9,13 @@
   <br /><br />
 
   <input type="submit" value="Edit Landmark">
+
+</form>
+
+<br /><br />
+
+<form action="/landmarks/<%= @landmark.id %>/delete" method="post">
+  <input type="hidden" name="_method" value="delete">
+
+  <input type="submit" value="EXTERMINATE">
 </form>

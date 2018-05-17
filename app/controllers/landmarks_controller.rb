@@ -1,9 +1,9 @@
 class LandmarksController < ApplicationController
-  set :views, Proc.new { File.join(root, "../views/landmarks") }
+  #set :views, Proc.new { File.join(root, "../views/landmarks") }
   #index
   get '/landmarks' do
     @landmarks = Landmark.all
-    erb :index
+    erb :'landmarks/index'
   end
 
   #   new
@@ -16,13 +16,13 @@ class LandmarksController < ApplicationController
     @titles = Title.all
     @landmarks = Landmark.all
 
-    erb :new
+    erb :'landmarks/new'
   end
 
   #show
   get '/landmarks/:id' do
     @landmark = Landmark.find(params["id"])
-    erb :show
+    erb :'landmarks/show'
   end
 
   # create
@@ -43,7 +43,7 @@ class LandmarksController < ApplicationController
   get '/landmarks/:id/edit' do
     @landmark = Landmark.find(params["id"])
 
-    erb :edit
+    erb :'landmarks/edit'
   end
   # edit
   #   PATCH
@@ -72,5 +72,10 @@ class LandmarksController < ApplicationController
   #   DELETE
   #   ‘/posts/:id/delete’
   #   deletes one blog post based on ID in the url
+  delete '/landmarks/:id/delete' do
+    Landmark.find(params[:id]).destroy
+
+    redirect "/landmarks"
+  end
 
 end

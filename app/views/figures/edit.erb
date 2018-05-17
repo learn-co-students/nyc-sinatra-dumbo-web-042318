@@ -48,3 +48,11 @@
 
   <input type="submit" value="Edit Figure">
 </form>
+
+<br /><br />
+
+<form action="/figures/<%= @figure.id %>/delete" method="post">
+  <input type="hidden" name="_method" value="delete">
+
+  <input type="submit" value="EXTERMINATE">
+</form>
