@@ -21,7 +21,7 @@ class FiguresController < ApplicationController
 
   #show
   get '/figures/:id' do
-    @figure = Figure.find(params[:id])
+    @figure = Figure.find(params["id"])
     erb :show
   end
 
@@ -49,12 +49,36 @@ class FiguresController < ApplicationController
   #   GET
   #   ‘/posts/:id/edit’
   #   displays edit form based on ID in the url
-  #
+
+  get '/figures/:id/edit' do
+    @figure = Figure.find(params["id"])
+    @landmarks = Landmark.all
+    @titles = Title.all
+
+    erb :edit
+  end
   # edit
   #   PATCH
   #   ‘/posts/:id’
   #   edits an existing blog post based on ID in the url
   #
+
+  patch '/figures/:id' do
+    @figure = Figure.find(params["id"])
+    @figure.update(params["figure"])
+
+    unless params["title"]["name"].empty?
+      @title = Title.create(params["title"])
+      FigureTitle.create(figure: @figure, title: @title)
+    end
+
+    unless params["landmark"]["name"].empty?
+      @landmark = Landmark.create(params["landmark"])
+      @figure.landmarks << @landmark
+    end
+    redirect "/figures/#{@figure.id}"
+  end
+
   # update
   #   GET
   #   ‘/posts/:id/update’
