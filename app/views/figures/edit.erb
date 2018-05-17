@@ -1,13 +1,14 @@
 <h1>Edit Figure</h1>
-<form action="/figures" method="post">
+<form action="/figures/<%= @figure.id %>" method="post">
+  <input id="hidden" type="hidden" name="_method" value="patch">
   <label for="figure_name">Name: </label>
-  <input id="figure_name" type="text" name="figure[name]"value=">
+  <input id="figure_name" type="text" name="figure[name]" value="<%= @figure.name %>">
 
   <br></br>
 
   <h2>Titles</h2>
   <% @titles.each do |title| %>
-      <input id="title_<%= title.id %>" type="checkbox" name="figure[title_ids][]" value="<%= title.id %>"><%= title.name %></input><br>
+      <input id="title_<%= title.id %>" type="checkbox" name="figure[title_ids][]" value="<%= title.id %>" <%=  @figure.titles.include?(title) ? "checked" : "" %>><%= title.name %></input><br>
   <% end %>
 
 
@@ -16,7 +17,7 @@
 
   <h2>Landmarks</h2>
   <% @landmarks.each do |landmark| %>
-      <input id="landmark_<%= landmark.id %>" type="checkbox" name="figure[landmark_ids][]" value="<%= landmark.id %>"><%= landmark.name %></input><br>
+      <input id="landmark_<%= landmark.id %>" type="checkbox" name="figure[landmark_ids][]" value="<%= landmark.id %>"<%= @figure.landmarks.include?(landmark) ? "checked" : ""  %>><%= landmark.name %></input><br>
   <% end %>
 
   <h2>Create New Landmark:</h2>
@@ -26,5 +27,5 @@
   <label for="new_year">Year: </label>
   <input id="new_year" type="text" name="landmark[year_completed]">
 
-  <input type="submit" value="Create New Figure">
+  <input type="submit" value="Edit Figure">
 </form>
